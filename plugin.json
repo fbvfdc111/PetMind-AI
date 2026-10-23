@@ -1,0 +1,62 @@
+{
+  "name": "petmind-ai",
+  "displayName": "PetMind AI",
+  "version": "1.2.0",
+  "description": "PetMind AI - 基于宠物数字生命模型的 AI 健康陪护智能体。通过长期记忆、行为趋势分析、多指标关联推理和主动提醒能力，实现宠物健康风险早发现、早关注、早行动。支持10步Agent工作流、多宠物管理、多模态感知（文本/图片/视频）、个性化风险评估与7日观察计划。",
+  "author": {
+    "name": "PetMind AI"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pet-health",
+    "behavior-analysis",
+    "health-monitoring",
+    "pet-care",
+    "veterinary",
+    "weight-tracking",
+    "diet-tracking",
+    "activity-monitoring",
+    "multi-pet",
+    "ai-report"
+  ],
+  "metadata": {
+    "dumate": {
+      "displayName": "PetMind AI",
+      "summary": "基于AI智能体的宠物数字生命主动健康陪护系统：长期记忆+多指标关联推理+主动提醒+10步Agent工作流，实现宠物健康风险早发现、早关注、早行动。",
+      "publisher": "PetMind AI",
+      "version": "1.2.0",
+      "level": "L2",
+      "category": "智慧医疗",
+      "tags": ["宠物健康", "行为分析", "健康监测", "趋势追踪", "AI报告", "多宠物管理", "AI智能体", "主动提醒", "数字生命", "风险评估"],
+      "sensitive": true,
+      "allow_implicit_invocation": true
+    }
+  },
+  "defaultEnabled": true,
+  "entry": "petmind-ai",
+  "agents": [
+    {
+      "name": "petmind-ai",
+      "displayName": "PetMind AI",
+      "description": "基于AI智能体的宠物数字生命主动健康陪护系统。当用户提及宠物健康监测、行为分析、健康风险评估、异常识别、观察计划、健康报告、宠物档案管理、主动提醒等场景时触发。支持10步Agent工作流：任务理解→档案读取→数据收集→基线建立→多指标联合推理→风险评估→决策解释→观察计划→报告生成。具备长期记忆、多因素推理和主动陪护能力，不替代兽医诊断。",
+      "mode": "primary",
+      "prompt": "./agents/petmind-ai.md",
+      "skills": [
+        "petmind-ai",
+        "pdf",
+        "visualized-output"
+      ]
+    }
+  ],
+  "skills": "./skills/",
+  "exampleQuestions": [
+    "帮我记录我家猫今天的数据：活动3小时，吃了80%",
+    "分析一下我家狗最近有没有异常",
+    "生成一份宠物健康报告",
+    "我猫最近不爱动了，食量也少了",
+    "帮我制定一个7天观察计划",
+    "我家宠物体重4.2kg，比之前轻了，正常吗",
+    "我想给我家猫做一个健康档案",
+    "帮我看看捣蛋鬼最近的行为趋势"
+  ]
+}
