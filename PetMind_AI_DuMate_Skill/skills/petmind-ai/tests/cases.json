@@ -1,0 +1,198 @@
+{
+  "skill": "petmind-ai",
+  "version": "1.2.0",
+  "test_cases": [
+    {
+      "id": "TC001",
+      "name": "请求分析宠物状态",
+      "category": "happy_path",
+      "input": {
+        "user_message": "帮我分析一下我家猫最近状态"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["档案", "数据", "基线", "趋势", "状态"],
+        "asks_clarification": false,
+        "calls_tool": "memory_search"
+      }
+    },
+    {
+      "id": "TC002",
+      "name": "录入日常行为数据",
+      "category": "happy_path",
+      "input": {
+        "user_message": "记录一下，今天活动2小时，吃了80%，喝了4次水，睡了13小时，躲了3次"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["已记录", "D-1", "活动", "食量", "对比"],
+        "asks_clarification": false,
+        "calls_tool": "memory_write"
+      }
+    },
+    {
+      "id": "TC003",
+      "name": "报告异常行为",
+      "category": "happy_path",
+      "input": {
+        "user_message": "我家猫最近不爱动了，食量也少了，还老躲床底下"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["活动", "食量", "躲藏", "关注", "观察"],
+        "asks_clarification": true
+      }
+    },
+    {
+      "id": "TC004",
+      "name": "请求生成报告",
+      "category": "happy_path",
+      "input": {
+        "user_message": "生成一份宠物健康报告"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["报告", "档案", "状态", "免责"],
+        "calls_tool": "memory_search"
+      }
+    },
+    {
+      "id": "TC005",
+      "name": "请求制定观察计划",
+      "category": "happy_path",
+      "input": {
+        "user_message": "帮我制定一个7天观察计划"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["观察", "计划", "天", "指标", "就医"]
+      }
+    },
+    {
+      "id": "TC006",
+      "name": "首次使用创建档案",
+      "category": "happy_path",
+      "input": {
+        "user_message": "我想给我家猫做一个健康档案"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["名字", "品种", "年龄", "性别", "体重"],
+        "asks_clarification": true
+      }
+    },
+    {
+      "id": "TC007",
+      "name": "负向场景-天气查询",
+      "category": "negative",
+      "input": {
+        "user_message": "今天天气怎么样"
+      },
+      "expected": {
+        "trigger_skill": false
+      }
+    },
+    {
+      "id": "TC008",
+      "name": "负向场景-宠物用品推荐",
+      "category": "negative",
+      "input": {
+        "user_message": "推荐一款好用的猫粮"
+      },
+      "expected": {
+        "trigger_skill": false
+      }
+    },
+    {
+      "id": "TC009",
+      "name": "降级场景-无历史数据",
+      "category": "fallback",
+      "input": {
+        "user_message": "帮我分析宠物状态",
+        "connected_tools": {
+          "memory_search": "empty"
+        }
+      },
+      "expected": {
+        "trigger_skill": true,
+        "uses_fallback": true,
+        "fallback_type": "degrade",
+        "output_contains": ["创建", "档案", "记录"]
+      }
+    },
+    {
+      "id": "TC010",
+      "name": "降级场景-数据不足",
+      "category": "fallback",
+      "input": {
+        "user_message": "帮我分析一下最近状态",
+        "connected_tools": {
+          "memory_search": "partial_2days"
+        }
+      },
+      "expected": {
+        "trigger_skill": true,
+        "uses_fallback": true,
+        "fallback_type": "partial",
+        "output_contains": ["数据不足", "置信度"]
+      }
+    },
+    {
+      "id": "TC011",
+      "name": "多指标联合推理",
+      "category": "core_agent",
+      "input": {
+        "user_message": "我的猫最近不爱动，而且吃得少，帮我分析一下"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["推理", "活动", "食量", "联合", "风险", "判断依据"],
+        "asks_clarification": true,
+        "calls_tool": "memory_search"
+      }
+    },
+    {
+      "id": "TC012",
+      "name": "数据不足处理-新宠物",
+      "category": "fallback",
+      "input": {
+        "user_message": "刚养的小猫，没有数据怎么办？"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "uses_fallback": true,
+        "fallback_type": "degrade",
+        "output_contains": ["数据不足", "基线", "记录", "7天", "档案"],
+        "asks_clarification": true
+      }
+    },
+    {
+      "id": "TC013",
+      "name": "Agent主动提醒-异常趋势",
+      "category": "core_agent",
+      "input": {
+        "user_message": "帮我看看",
+        "connected_tools": {
+          "memory_search": "active_decline_3days"
+        }
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["发现", "连续", "下降", "低于", "历史平均"],
+        "asks_clarification": false
+      }
+    },
+    {
+      "id": "TC014",
+      "name": "AI决策解释透明度",
+      "category": "core_agent",
+      "input": {
+        "user_message": "为什么判断为重点观察？"
+      },
+      "expected": {
+        "trigger_skill": true,
+        "output_contains": ["输入", "分析", "判断", "为什么", "依据"]
+      }
+    }
+  ]
+}
